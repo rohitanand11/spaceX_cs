@@ -1,22 +1,29 @@
 .DataCard{
     width: 400px;
-    height:100vh;
+    height:90vh;
+    margin-bottom: 10vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    background-color: whitesmoke;
+    border-radius: 5px;
 }
 
-@media only screen and (max-width: 499px) {
+@media only screen and (min-width: 700px) and (max-width: 1024px) {
     .DataCard{
-        align-self: center;
-        width:90%;
-        height:100vh;
+        // align-self: center;
+        width: 80%;
+        height: 47vh;
+        margin-bottom: 3vh;
     }
 }
 
-@media only screen and (min-width:1024px) and (max-width:2000px){
+@media only screen and (min-width: 1024px) {
     .DataCard{
-        width:28%;
+        width: 26%;
+        height: 47vh;
+        margin-bottom: 3vh;
+        
     }
 }
