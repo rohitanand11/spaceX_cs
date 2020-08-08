@@ -1,0 +1,22 @@
+.DataCard{
+    width: 400px;
+    height:100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media only screen and (max-width: 499px) {
+    .DataCard{
+        align-self: center;
+        width:90%;
+        height:100vh;
+    }
+}
+
+@media only screen and (min-width:1024px) and (max-width:2000px){
+    .DataCard{
+        width:28%;
+    }
+}

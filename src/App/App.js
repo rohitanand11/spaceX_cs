@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 
 import Header from "../components/header/Header";
 import Filters from "../components/filters/Filters";
+import DataContainer from "../components/dataContainer/DataContainer";
+
 import classes from "./App.module.scss";
 
 const BRAND_NAME = "SpacEx Launch Programs";
@@ -24,10 +26,11 @@ const LAUNCH_YEARS = [
 ];
 const LAUNCH_STATUS = ['true', 'false'];
 
-function App() {
-  const [year, setYear] = useState(2006);
+const App = () => {
+  const [year, setYear] = useState(null);
   const [successfulLaunch, setSuccessfulLaunch] = useState(null);
   const [successfulLand, setSuccessfulLand] = useState(null);
+  const [dataFromApi,setdataFromApi] = useState(null);
 
   const updateYear = (pYear) => {
     setYear(pYear);
@@ -41,6 +44,28 @@ function App() {
     setSuccessfulLand(pStatus);
   };
 
+  const getDataFromApi = () => {
+    const apiUrl= "https://api.spaceXdata.com/v3/launches?limit=5"
+    fetch(apiUrl)
+    .then(response=> response.json())
+    .then(data => setdataFromApi(data));
+  };
+
+  const renderMainComponent = () => {
+    if(dataFromApi){
+      console.log(dataFromApi);
+      return <DataContainer data={dataFromApi}/>
+      
+    } else {
+      return null;
+    }
+  }
+
+  useEffect(()=>{
+    getDataFromApi();
+  },[]);
+
+  
   return (
     <div className={classes.App}>
       <Header BrandName={BRAND_NAME} />
@@ -57,6 +82,8 @@ function App() {
           updateStatusLand = {updateStatusLand}
           selectedStatusLand={successfulLand}
         />
+
+        {renderMainComponent()}
       </main>
     </div>
   );
