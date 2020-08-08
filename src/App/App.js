@@ -24,7 +24,9 @@ const LAUNCH_YEARS = [
   2019,
   2020,
 ];
+
 const LAUNCH_STATUS = ['true', 'false'];
+const BASE_API_URL = "https://api.spaceXdata.com/v3/launches?limit=100";
 
 const App = () => {
   const [year, setYear] = useState(null);
@@ -33,20 +35,21 @@ const App = () => {
   const [dataFromApi,setdataFromApi] = useState(null);
 
   const updateYear = (pYear) => {
-    setYear(pYear);
+    (pYear===year)? setYear(null):setYear(pYear);
   };
 
   const updateStatusLaunch = (pStatus) => {
-    setSuccessfulLaunch(pStatus);
+    (pStatus===successfulLaunch)? setSuccessfulLaunch(null):setSuccessfulLaunch(pStatus);
   };
 
   const updateStatusLand = (pStatus) => {
-    setSuccessfulLand(pStatus);
+    (pStatus===successfulLand)? setSuccessfulLand(null):setSuccessfulLand(pStatus);
+    
   };
 
-  const getDataFromApi = () => {
-    const apiUrl= "https://api.spaceXdata.com/v3/launches?limit=5"
-    fetch(apiUrl)
+  const getDataFromApi = (pUrl) => {
+    // const apiUrl= "https://api.spaceXdata.com/v3/launches?limit=5"
+    fetch(pUrl)
     .then(response=> response.json())
     .then(data => setdataFromApi(data));
   };
@@ -62,8 +65,29 @@ const App = () => {
   }
 
   useEffect(()=>{
-    getDataFromApi();
+    getDataFromApi(BASE_API_URL);
+
   },[]);
+
+  useEffect(()=>{
+    const apiBaseUrl = 'https://api.spaceXdata.com/v3/launches?limit=100'
+    let filteredUrl=apiBaseUrl;
+
+    if(successfulLaunch !==null){
+      filteredUrl = `${filteredUrl}&launch_success=${successfulLaunch}`;
+    }
+
+    if(successfulLand!==null){
+      filteredUrl = `${filteredUrl}&land_success=${successfulLand}`;
+    }
+
+    if(year){
+      filteredUrl = `${filteredUrl}&launch_year=${year}`;
+    }
+
+    getDataFromApi(filteredUrl);
+
+  },[year,successfulLaunch,successfulLand])
 
   
   return (
