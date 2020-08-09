@@ -16,6 +16,7 @@ const Filters = ({
 
   return (
     <div className={Classes.Filter}>
+      <div className={Classes.Heading}>Filters</div>
       {/* 1)for launch year */}
       <ButtonsTray
         filterName = "Launch Year"

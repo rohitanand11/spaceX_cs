@@ -35,7 +35,12 @@
             width: 35%;
             text-align: center;
             border-radius: 4px;
-            background-color: yellowgreen;
+            background-color: rgb(196, 226, 137);
+            cursor: pointer;
+        }
+
+        .Button:hover{
+            background-color: rgb(240, 255, 209);
         }
         
     }

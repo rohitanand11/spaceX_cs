@@ -10,6 +10,12 @@
     min-height: 85vh;
 }
 
+@media only screen and (max-width: 700px){
+    .dataContainer {
+        margin-top: 5%;
+    }
+}
+
 @media only screen and (max-width: 1024px) and (min-width: 700px) {
     .dataContainer{
         width: 50%;

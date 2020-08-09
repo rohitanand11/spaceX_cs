@@ -9,7 +9,7 @@ const ButtonsTray = ({ filterName,buttonsValues, updateFocused, selectedBUtton }
           <button
             key={elem}
             className={Classes.Button}
-            style={{ backgroundColor: "darkgreen" }}
+            style={{ backgroundColor: "rgb(101, 151, 1)" }}
             onClick={() => updateFocused(elem)}
           >
             {elem}
