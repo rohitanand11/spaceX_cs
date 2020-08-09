@@ -97,7 +97,6 @@ const App = () => {
 
   const renderMainComponent = () => {
     if (dataFromApi) {
-      console.log(dataFromApi);
       return <DataContainer data={dataFromApi} />;
     } else {
       return null;

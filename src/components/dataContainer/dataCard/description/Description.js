@@ -13,7 +13,6 @@ const Description = ({ missionIds, launch_year, suc_lauch, Suc_land }) => {
 
           <tr>
             <th>Launch Year : </th>
-            {console.log(launch_year)}
             <td>{launch_year}</td>
           </tr>
 
