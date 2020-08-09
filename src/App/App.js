@@ -1,4 +1,5 @@
 import React, { useState ,useEffect} from "react";
+import {useHistory} from 'react-router-dom';
 
 import Header from "../components/header/Header";
 import Filters from "../components/filters/Filters";
@@ -34,6 +35,8 @@ const App = () => {
   const [successfulLand, setSuccessfulLand] = useState(null);
   const [dataFromApi,setdataFromApi] = useState(null);
 
+  let history = useHistory();
+
   const updateYear = (pYear) => {
     (pYear===year)? setYear(null):setYear(pYear);
   };
@@ -54,27 +57,18 @@ const App = () => {
     .then(data => setdataFromApi(data));
   };
 
-  const renderMainComponent = () => {
-    if(dataFromApi){
-      console.log(dataFromApi);
-      return <DataContainer data={dataFromApi}/>
-      
-    } else {
-      return null;
-    }
-  }
-
   useEffect(()=>{
     getDataFromApi(BASE_API_URL);
-
+    history.push('/home');
   },[]);
 
   useEffect(()=>{
     const apiBaseUrl = 'https://api.spaceXdata.com/v3/launches?limit=100'
-    let filteredUrl=apiBaseUrl;
+    let filteredUrl='';
+    let finalUrl='';
 
     if(successfulLaunch !==null){
-      filteredUrl = `${filteredUrl}&launch_success=${successfulLaunch}`;
+      filteredUrl = `&launch_success=${successfulLaunch}`;
     }
 
     if(successfulLand!==null){
@@ -85,11 +79,27 @@ const App = () => {
       filteredUrl = `${filteredUrl}&launch_year=${year}`;
     }
 
-    getDataFromApi(filteredUrl);
+    finalUrl = `${apiBaseUrl}${filteredUrl}`
+
+    getDataFromApi(finalUrl);
+    history.push(`/${filteredUrl}`);
+
+    if(successfulLaunch ===null && successfulLand ===null && year===null) {
+      history.push('/home');
+    }
 
   },[year,successfulLaunch,successfulLand])
 
-  
+  const renderMainComponent = () => {
+    if(dataFromApi){
+      console.log(dataFromApi);
+      return <DataContainer data={dataFromApi}/>
+      
+    } else {
+      return null;
+    }
+  }
+
   return (
     <div className={classes.App}>
       <Header BrandName={BRAND_NAME} />
