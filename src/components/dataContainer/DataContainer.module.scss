@@ -7,11 +7,19 @@
     flex-wrap: wrap;
     // padding-top: 15px;
     padding-bottom: 15px;
+    min-height: 85vh;
 }
 
 @media only screen and (max-width: 1024px) and (min-width: 700px) {
     .dataContainer{
         width: 50%;
+    }
+}
+
+
+@media only screen and(min-width: 1024px) {
+    .dataContainer{
+        width: 74%;
     }
 }
 // @media only screen and (max-width: 2000px) and (min-width: 1024px) {

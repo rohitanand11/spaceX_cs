@@ -2,7 +2,7 @@ import React from "react";
 import ButtonsTray from "../buttonsTray/ButtonsTray";
 import Classes from "./Filters.module.scss";
 
-const Filter = ({
+const Filters = ({
   launch_years,
   updateYear,
   selectedYear,
@@ -44,4 +44,4 @@ const Filter = ({
   );
 };
 
-export default Filter;
+export default Filters;

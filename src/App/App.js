@@ -1,13 +1,15 @@
-import React, { useState ,useEffect} from "react";
-import {useHistory} from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 import Header from "../components/header/Header";
 import Filters from "../components/filters/Filters";
 import DataContainer from "../components/dataContainer/DataContainer";
 
 import classes from "./App.module.scss";
+import Footer from "../components/footer/Footer";
 
 const BRAND_NAME = "SpaceX Launch Programs";
+const DEVELOPER_NAME = "ROHIT ANAND";
 const LAUNCH_YEARS = [
   2006,
   2007,
@@ -26,82 +28,81 @@ const LAUNCH_YEARS = [
   2020,
 ];
 
-const LAUNCH_STATUS = ['true', 'false'];
+const LAUNCH_STATUS = ["true", "false"];
 const BASE_API_URL = "https://api.spaceXdata.com/v3/launches?limit=100";
 
 const App = () => {
   const [year, setYear] = useState(null);
   const [successfulLaunch, setSuccessfulLaunch] = useState(null);
   const [successfulLand, setSuccessfulLand] = useState(null);
-  const [dataFromApi,setdataFromApi] = useState(null);
+  const [dataFromApi, setdataFromApi] = useState(null);
 
   let history = useHistory();
 
   const updateYear = (pYear) => {
-    (pYear===year)? setYear(null):setYear(pYear);
+    pYear === year ? setYear(null) : setYear(pYear);
   };
 
   const updateStatusLaunch = (pStatus) => {
-    (pStatus===successfulLaunch)? setSuccessfulLaunch(null):setSuccessfulLaunch(pStatus);
+    pStatus === successfulLaunch
+      ? setSuccessfulLaunch(null)
+      : setSuccessfulLaunch(pStatus);
   };
 
   const updateStatusLand = (pStatus) => {
-    (pStatus===successfulLand)? setSuccessfulLand(null):setSuccessfulLand(pStatus);
-    
+    pStatus === successfulLand
+      ? setSuccessfulLand(null)
+      : setSuccessfulLand(pStatus);
   };
 
   const getDataFromApi = (pUrl) => {
-    // const apiUrl= "https://api.spaceXdata.com/v3/launches?limit=5"
     fetch(pUrl)
-    .then(response=> response.json())
-    .then(data => setdataFromApi(data));
+      .then((response) => response.json())
+      .then((data) => setdataFromApi(data));
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getDataFromApi(BASE_API_URL);
-    history.push('/home');
-  },[]);
+    history.push("/home");
+  }, []);
 
-  useEffect(()=>{
-    const apiBaseUrl = 'https://api.spaceXdata.com/v3/launches?limit=100'
-    let filteredUrl='';
-    let finalUrl='';
+  useEffect(() => {
+    const apiBaseUrl = BASE_API_URL;
+    let filteredUrl = "";
+    let finalUrl = "";
 
-    if(successfulLaunch ===null && successfulLand ===null && year===null) {
-      
-      history.push('/home');
+    if (successfulLaunch === null && successfulLand === null && year === null) {
+      getDataFromApi(BASE_API_URL);
+      history.push("/home");
 
     } else {
-
-      if(successfulLaunch !==null){
+      if (successfulLaunch !== null) {
         filteredUrl = `&launch_success=${successfulLaunch}`;
       }
-  
-      if(successfulLand!==null){
+
+      if (successfulLand !== null) {
         filteredUrl = `${filteredUrl}&land_success=${successfulLand}`;
       }
-  
-      if(year){
+
+      if (year) {
         filteredUrl = `${filteredUrl}&launch_year=${year}`;
       }
-  
-      finalUrl = `${apiBaseUrl}${filteredUrl}`
+
+      finalUrl = `${apiBaseUrl}${filteredUrl}`;
 
       getDataFromApi(finalUrl);
       history.push(`/${filteredUrl}`);
     }
-
-  },[year,successfulLaunch,successfulLand])
+  }, [year, successfulLaunch, successfulLand]);
 
   const renderMainComponent = () => {
-    if(dataFromApi){
+    if (dataFromApi) {
       console.log(dataFromApi);
-      return <DataContainer data={dataFromApi}/>
-      
+      return <DataContainer data={dataFromApi} />;
     } else {
       return null;
     }
-  }
+  };
 
   return (
     <div className={classes.App}>
@@ -115,15 +116,17 @@ const App = () => {
           success_launch={LAUNCH_STATUS}
           updateStatusLaunch={updateStatusLaunch}
           selectedStatusLaunch={successfulLaunch}
-          success_land = {LAUNCH_STATUS}
-          updateStatusLand = {updateStatusLand}
+          success_land={LAUNCH_STATUS}
+          updateStatusLand={updateStatusLand}
           selectedStatusLand={successfulLand}
         />
 
         {renderMainComponent()}
       </main>
+
+      <Footer DeveloperName={DEVELOPER_NAME}/>
     </div>
   );
-}
+};
 
 export default App;
