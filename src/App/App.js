@@ -7,7 +7,7 @@ import DataContainer from "../components/dataContainer/DataContainer";
 
 import classes from "./App.module.scss";
 
-const BRAND_NAME = "SpacEx Launch Programs";
+const BRAND_NAME = "SpaceX Launch Programs";
 const LAUNCH_YEARS = [
   2006,
   2007,
@@ -67,25 +67,28 @@ const App = () => {
     let filteredUrl='';
     let finalUrl='';
 
-    if(successfulLaunch !==null){
-      filteredUrl = `&launch_success=${successfulLaunch}`;
-    }
-
-    if(successfulLand!==null){
-      filteredUrl = `${filteredUrl}&land_success=${successfulLand}`;
-    }
-
-    if(year){
-      filteredUrl = `${filteredUrl}&launch_year=${year}`;
-    }
-
-    finalUrl = `${apiBaseUrl}${filteredUrl}`
-
-    getDataFromApi(finalUrl);
-    history.push(`/${filteredUrl}`);
-
     if(successfulLaunch ===null && successfulLand ===null && year===null) {
+      
       history.push('/home');
+
+    } else {
+
+      if(successfulLaunch !==null){
+        filteredUrl = `&launch_success=${successfulLaunch}`;
+      }
+  
+      if(successfulLand!==null){
+        filteredUrl = `${filteredUrl}&land_success=${successfulLand}`;
+      }
+  
+      if(year){
+        filteredUrl = `${filteredUrl}&launch_year=${year}`;
+      }
+  
+      finalUrl = `${apiBaseUrl}${filteredUrl}`
+
+      getDataFromApi(finalUrl);
+      history.push(`/${filteredUrl}`);
     }
 
   },[year,successfulLaunch,successfulLand])

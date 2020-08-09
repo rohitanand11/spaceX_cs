@@ -13,7 +13,7 @@ const ImageContainer = ({ imageUrl }) => {
       <img src={getImageImageUrl()} alt="spacex" className={Classes.Image}/>
     </div>
   );
-
+  
 };
 
 export default ImageContainer;
